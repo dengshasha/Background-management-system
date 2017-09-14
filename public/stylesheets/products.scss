@@ -1,0 +1,30 @@
+$main-color:#73A238;
+$main-color-hover:#ACC92C;
+$active-color:#FDB96E;
+$font-color-light:#F3F3F3;
+$font-color:#777;
+$red-color:#E57373;
+
+.active{
+  color: #fff;
+  background: $active-color;
+}
+.active:hover{
+  color: #fff;
+}
+.col-lg-12{
+  padding-right: 0;
+}
+.form-inline{
+  /*搜索框*/
+  border-bottom: 2px solid $main-color;
+  .search{
+    padding: 20px;
+    .input-group{
+      margin-right: 15px;
+    }
+  }
+  button{
+    color: #fff;
+  }
+}

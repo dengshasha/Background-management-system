@@ -1,0 +1,184 @@
+<!doctype html>
+<head>
+    <%- include('templates/header.html') %>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/news.css">
+    <link rel="stylesheet" href="plugins/pager/pager.css" />
+    <!--裁图插件-->
+    <link rel="stylesheet" href="plugins/croppic/croppic.css">
+</head>
+<html>
+<body>
+<div  id="wrapper">
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row position">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb">
+                        当前位置：
+                        <li>
+                            新闻管理
+                        </li>
+                        <li>
+                            新闻添加
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <!-- /.row -->
+            <div class="line" style="width: 100%;height: 3px;background-color: #73A238;"></div>
+            <div class="row">
+                <div id="sidetree" class="col-lg-2">
+                    <div id="sidetreecontrol"> <a href="?#">全部收起</a> | <a href="?#">全部展开</a> </div>
+                    <ul class="treeview" id="tree" v-for="item in categoryList">
+                        <li class="expandable"><div class="hitarea expandable-hitarea"></div>
+                            <span>{{ item.type }}</span>
+                            <ul style="display: none;" v-for="category in item.list">
+                                <li><a href="#" v-on:click = "selectCategory(category.id)">{{category.cn_name}}</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!--end sidetree-->
+                <div class="add-button">
+                    <a href="#" class="btn" id="add-button" data-target="#add-news" data-toggle="modal">添加</a>
+                </div>
+                <div class="table-responsive col-lg-10">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>新闻ID</th>
+                            <th>标题</th>
+                            <th>新闻地址</th>
+                            <th>缩略图</th>
+                            <th>发布时间</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        <tr v-for="item in dataList" class="news_add_tr">
+                            <td>{{item.id}}</td>
+                            <td>{{item.title}}</td>
+                            <td><a v-bind:href="item.news_url" target="_blank">{{item.news_url}}</a></td>
+                            <td>
+                                <div class="thumbnail_all">
+                                    <a href="#" type="button" class="thumbnail_url">
+                                        {{item.thumbnail}}
+                                    </a>
+                                    <div class="thumbnail_img"><img v-bind:src=item.thumbnail alt="" width="80px" height="80px"></div>
+                                </div>
+                            </td>
+                            <td>{{getLocalTime(item.created_at)}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--end table-responsive-->
+            </div><!--end row-->
+            <!--分页-->
+            <div id="pager" class="pager" style="margin-right: 50px"></div>
+        </div><!--end container-fluid-->
+        <!--提示-->
+        <div class="modal fade" id="prompt" tabindex="-1" role="dialog" aria-labelledby="prompt-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="prompt-title">{{ promptTitle }}</h4>
+                    </div>
+                    <div class="row modal-body" style="text-align: center;">
+                        <p id="prompt-body">{{ promptBody }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--添加新闻-->
+        <div class="modal fade add-news" id="add-news" tabindex="-1" role="dialog" aria-labelledby="prompt-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">新闻添加</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post" role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="news-category" class="col-lg-4">请选择分类：</label>
+                                <div class="col-lg-8">
+                                    <select name="news-category" class="form-control" id="news-category" v-model="categorySelected">
+                                        <option v-bind:value='item.id' v-for="item in categoryListFirst.list">{{item.cn_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="news-title" class="col-lg-4">新闻标题：</label>
+                                <div class="col-lg-8">
+                                    <input type="text" name="news-title" id="news-title" class="form-control" v-model="newsTitle">
+                                    <p class="prompt" v-bind:style="{display:isError.news_title_error}">新闻标题不能为空！</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-4">缩略图:</label>
+                                <div class="col-lg-8">
+                                    <div class="upload-img">
+                                        <img alt="" v-bind:src="imgUrl" width="200px" id="image">
+                                    </div>
+                                    <!--裁图盒子-->
+                                    <div id="upload-image" style="width: 300px;height: 300px;display: none;"></div>
+                                    <div style="margin-left: 30px;float: left">
+                                        <input type="file" name="file" id="img_choose" class="img_choose" v-on:change="uploadPicture"/>
+                                        <label for="img_choose">上传图片</label>
+                                    </div>
+                                </div>
+                                <p class="prompt" v-bind:style="{display:isError.upload_img_error}" style="text-align: center;">请先上传图片！</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="introduction" class="col-lg-4">简介：</label>
+                                <div class="col-lg-8">
+                                    <textarea class="form-control" name="introduction" id="introduction" cols="43" rows="7" v-model="newsIntroduction" placeholder="新闻简介不能超过40个字符"></textarea>
+                                    <p class="prompt" v-bind:style="{display:isError.introduction_error}">新闻简介不能为空或超过最大字符限制！</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="news_url" class="col-lg-4">新闻地址：</label>
+                                <div class="col-lg-8">
+                                    <input type="text" name="news_url" id="news_url" class="form-control" v-model="newsUrl">
+                                    <p class="prompt" v-bind:style="{display:isError.news_url_error}">新闻地址不能为空！</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-4">是否热门：</label>
+                                <div class="col-lg-8 hot">
+                                    <label class="radio-inline" style="line-height: 20px;">
+                                        <input type="radio" name="is_hot" value="true" v-model="hotChecked"/>是
+                                    </label>
+                                    <label class="radio-inline" style="line-height: 20px;">
+                                        <input type="radio" name="is_hot" value="false" v-model="hotChecked"/>否
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div><!--end modal-body-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" v-on:click="addNews()">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--end page-wrapper-->
+</div><!--end wrapper-->
+<%- include('templates/footer.html') %>
+</body>
+<script>
+    var configUrl = '<%= config.communityAPIUrl %>';
+</script>
+<!--分页插件-->
+<script src="plugins/pager/pager.js"></script>
+<!--裁图插件-->
+<script src="plugins/croppic/croppic.js"></script>
+<script src="js/unminify/httpClient.js"></script>
+<script src="js/unminify/news.js"></script>
+</html>

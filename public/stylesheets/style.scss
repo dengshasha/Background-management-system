@@ -1,0 +1,93 @@
+$main-color:#73A238;
+$main-color-hover:#ACC92C;
+$active-color:#FDB96E;
+$font-color-light:#F3F3F3;
+$font-color:#777;
+$red-color:#E57373;
+
+body{
+  font-family: "Microsoft YaHei UI";
+  color:$font-color;
+  font-size: 13px;
+}
+a{
+  color: $font-color;
+}
+a:hover,a:active,a:visited,a:link{
+  text-decoration: none;
+  outline: none;
+}
+a:hover{
+  color: $red-color;
+}
+.active{
+  color: #fff;
+  background: $active-color;
+}
+#page-wrapper {
+  min-height: 850px;
+  height: auto;
+  padding: 0;
+  padding-top: 50px;
+  .container-fluid {
+    padding: 0;
+  }
+  .row {
+    margin-right: 0;
+    .breadcrumb{
+      margin-bottom: 0;
+    }
+  }
+  .position{
+    /*位置*/
+    height: 50px;
+    font-size: 13px;
+    color:$font-color;
+    line-height: 35px;
+  }
+
+  #sidetree{
+    /*树结构*/
+    padding-left: 40px;
+    margin-top: 60px;
+    font-size: 13px;
+    .treeview{
+      margin-top: 20px;
+      li{
+        line-height: 25px;
+      }
+    }
+  }
+
+  .table-responsive table,
+  .table-responsive table th,
+  .table-responsive table td{
+    text-align: center!important;
+    vertical-align: middle!important;
+  }
+  .table{
+    margin-top: 50px;
+    width: 90%;
+    > thead > tr > th{
+      text-align: center;
+      //font-weight: normal;
+      height: 30px;
+      line-height: 30px;
+      letter-spacing: 1px;
+    }
+    > tbody{
+      a{
+        display: inline-block;
+        padding: .5em 1.2em;
+        font-size: 12px;
+      }
+      a.active:hover{
+        color: #fff;
+      }
+    }
+  }
+}
+.modal-dialog{
+  margin-top: 100px;
+}
+

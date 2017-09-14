@@ -1,0 +1,70 @@
+@charset "UTF-8";
+body {
+  font-family: "Microsoft YaHei UI";
+  color: #777;
+  font-size: 13px; }
+
+a {
+  color: #777; }
+
+a:hover, a:active, a:visited, a:link {
+  text-decoration: none;
+  outline: none; }
+
+a:hover {
+  color: #E57373; }
+
+.active {
+  color: #fff;
+  background: #FDB96E; }
+
+#page-wrapper {
+  min-height: 850px;
+  height: auto;
+  padding: 0;
+  padding-top: 50px; }
+  #page-wrapper .container-fluid {
+    padding: 0; }
+  #page-wrapper .row {
+    margin-right: 0; }
+    #page-wrapper .row .breadcrumb {
+      margin-bottom: 0; }
+  #page-wrapper .position {
+    /*位置*/
+    height: 50px;
+    font-size: 13px;
+    color: #777;
+    line-height: 35px; }
+  #page-wrapper #sidetree {
+    /*树结构*/
+    padding-left: 40px;
+    margin-top: 60px;
+    font-size: 13px; }
+    #page-wrapper #sidetree .treeview {
+      margin-top: 20px; }
+      #page-wrapper #sidetree .treeview li {
+        line-height: 25px; }
+  #page-wrapper .table-responsive table,
+  #page-wrapper .table-responsive table th,
+  #page-wrapper .table-responsive table td {
+    text-align: center !important;
+    vertical-align: middle !important; }
+  #page-wrapper .table {
+    margin-top: 50px;
+    width: 90%; }
+    #page-wrapper .table > thead > tr > th {
+      text-align: center;
+      height: 30px;
+      line-height: 30px;
+      letter-spacing: 1px; }
+    #page-wrapper .table > tbody a {
+      display: inline-block;
+      padding: .5em 1.2em;
+      font-size: 12px; }
+    #page-wrapper .table > tbody a.active:hover {
+      color: #fff; }
+
+.modal-dialog {
+  margin-top: 100px; }
+
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,180 @@
+<!doctype html>
+<head>
+    <%- include('templates/header.html') %>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/configuration.css">
+    <link rel="stylesheet" href="plugins/pager/pager.css" />
+</head>
+<html>
+<body>
+
+<div id="wrapper">
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb position">
+                        当前位置：
+                        <li>
+                           通用配置
+                        </li>
+                        <li>
+                            分类管理
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <!-- /.row -->
+            <div class="row" style="border-bottom: 2px solid #73A238;text-align: center;">
+                <div class="resource-type">
+                    <label for="resource-list">资源类型：</label>
+                    <select name="resource-list" id="resource-list" class="form-control" v-model="resourcesSelected" v-on:change="selectResources()">
+                        <option v-for="item in resources" v-bind:value="item.id">{{ item.type_name }}</option>
+                    </select>
+                </div>
+                <div class="classification">
+                    <label for="classification-list">所有分类：</label>
+                    <select name="classification-list" class="form-control" id="classification-list" v-model="categorySelected" v-on:change="selectCategory()">
+                        <option v-for="item in category" v-bind:value="item.type_id">{{ item.type }}</option>
+                    </select>
+                </div>
+            </div><!--end row-->
+
+            <div class="add-button">
+                <a href="#" class="btn" data-target="#add-category" data-toggle="modal" v-on:click="getResources()">添加分类</a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered" id="table">
+                    <thead>
+                    <tr>
+                        <th>分类ID</th>
+                        <th>分类中文名</th>
+                        <th>分类英文名</th>
+                        <th>排序</th>
+                        <th>设置热门</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+
+                    <tr v-for="(item,index) in category_list">
+                        <td class="td_text">{{ item.id }}</td>
+                        <td class="td_text">{{ item.cn_name }}</td>
+                        <td class="td_text">{{ item.en_name }}</td>
+                        <td class="sort">
+                            <input type="text" class="sort_input" v-bind:value="item.display_index" v-on:blur="updateSort(item.id,$event)">
+                        </td>
+                        <td class="set_hot">
+                            <a href="#" class="btn" v-bind:class="{active:item.is_hot}" v-on:click="updateHot(index,item.id,item.is_hot,true)">设为热门</a>
+                            <a href="#" class="btn" v-bind:class="{active:!item.is_hot}" v-on:click="updateHot(index,item.id,!item.is_hot,false)">取消热门</a>
+                        </td>
+                        <td class="set_use">
+                            <a href="#" data-value="true" class="btn" v-bind:class="{active:item.off_line}" v-on:click="updateOffLine(index,item.id,item.off_line,true)">弃用</a>
+                            <a href="#" data-value="false" class="btn" v-bind:class="{active:!item.off_line}" v-on:click="updateOffLine(index,item.id,!item.off_line,false)">启用</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!--end table-responsive-->
+
+            <!--添加分类-->
+            <div class="modal fade add-category" id="add-category" tabindex="-1" role="dialog" aria-labelledby="add-category-label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <p>将添加分类到：<span style="color: #73A238;">{{ remodalResources }} > {{ remodalCategory }}</span> 下</p>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" role="form" class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="cn_name" class="col-lg-4">分类中文名：</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" name="cn_name" id="cn_name" class="form-control" v-model="postForm.cnName">
+                                        <p class="prompt" v-bind:style="{display:isError.cn_name_error}">分类中文名不能为空！</p>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="en_name" class="col-lg-4">分类英文名：</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" name="en_name" id="en_name" class="form-control" v-model="postForm.enName">
+                                        <p class="prompt" v-bind:style="{display:isError.en_name_error}">分类英文名不能为空！</p>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="displayIndex" class="col-lg-4">排序：</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" name="displayIndex" id="displayIndex" class="form-control" v-model="postForm.displayIndex">
+                                        <p class="prompt" v-bind:style="{display:isError.display_index_error}">排序不能为空</p>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-4">是否启用：</label>
+                                    <div class="col-lg-8 use">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="off_line" value="false" v-model="postForm.offLine">是
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="off_line" value="true" v-model="postForm.offLine">否
+                                        </label>
+                                        <p class="prompt" v-bind:style="{display:isError.off_line_error}">请选择是否启用！</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-4">是否热门：</label>
+                                    <div class="col-lg-8 hot">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="is_hot" value="true" v-model="postForm.isHot"/>是
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="is_hot" value="false" v-model="postForm.isHot"/>否
+                                        </label>
+                                        <p class="prompt" v-bind:style="{display:isError.is_hot_error}">请选择是否热门！</p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" v-on:click="addCategory()">确定</button>
+                        </div>
+                    </div><!--/.modal-content-->
+                </div><!--/.modal-dialog-->
+            </div><!--/.modal-->
+
+            <!--提示-->
+            <div class="modal fade" id="prompt" tabindex="-1" role="dialog" aria-labelledby="prompt-label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title" id="prompt-title">{{ promptTitle }}</h4>
+                        </div>
+                        <div class="row modal-body" style="text-align: center;">
+                            <p id="prompt-body">{{ promptBody }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!--end container-fluid-->
+    </div><!--end page-wrapper-->
+</div><!--end wraper-->
+<%- include('templates/footer.html') %>
+</body>
+<script>
+    var configUrl = '<%= config.communityAPIUrl %>';
+</script>
+</html>
+<!--分页插件-->
+<script src="plugins/pager/pager.js"></script>
+<script src="js/unminify/httpClient.js"></script>
+<script src="js/unminify/configuration.js"></script>
+

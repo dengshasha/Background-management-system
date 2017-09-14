@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<div id="demo">
+
+</div>
+<script>
+
+    var p=[{id:1,pid:0,name:'x'},
+        {id:2,pid:1,name:'x_1'},
+        {id:3,pid:2,name:'x_1_1'},
+        {id:4,pid:2,name:'x_1_2'},
+        {id:5,pid:0,name:'x_1_1'}
+            ];
+    var result=[];
+
+    addChildrenNav(result,p,0);
+    console.log(result);
+
+    function addChildrenNav(targetList,originList,id)
+    {
+        for (var i = 0; i < originList.length; i++)
+        {
+            if (originList[i].pid== id)
+            {
+                targetList.push(originList[i]);
+                targetList[targetList.length-1].ChildrenNav=[];
+                addChildrenNav(targetList[targetList.length-1].ChildrenNav, originList, targetList[targetList.length-1].id);
+            }
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    var points=[
+            {"p360": "http://xxx1","campos": "4,6,11"},
+            {"p360": "http://xxx2","campos": "-5,6,2"},
+            {"p360": "http://xxx3","campos": "6,-22,11"},
+            {"p360": "http://xxx4","campos": "6,6,6"}
+            ];
+     console.log(points);
+    for(var i=0;i<points.length;i++){
+        var mainPoint=points[i].campos.split(',');
+        for(var j=0;j<points.length;j++){
+            if(points[j].p360!=points[i].p360){
+                var orientation=1;
+                var hotPoint=points[j].campos.split(',');
+                var X=Number(mainPoint[0])-Number(hotPoint[0]);
+                var Y=Number(mainPoint[1])-Number(hotPoint[1]);
+                if(X>0&&Y>0){orientation=3};
+                if(X>0&&Y<0){orientation=2};
+                if(X<0&&Y>0){orientation=4};
+                if(X<0&&Y<0){orientation=1};
+                if(X==0&&Y>0){orientation=5};//正下
+                if(X==0&&Y<0){orientation=6};//正上
+                if(X>0&&Y==0){orientation=7};//正左
+                if(X<0&&Y==0){orientation=8};//正右
+                var degrees=0;
+                var absX=Math.abs(X);
+                var absY=Math.abs(Y);
+                switch (orientation){
+                    case 1:degrees=360-(Math.atan(absX/absY)*180/Math.PI);break;
+                    case 2:degrees=(Math.atan(absX/absY)*180/Math.PI);break;
+                    case 3:degrees=180-(Math.atan(absX/absY)*180/Math.PI);break;
+                    case 4:degrees=180+(Math.atan(absX/absY)*180/Math.PI);break;
+                    case 5:degrees=180;break;
+                    case 6:degrees=0;break;
+                    case 7:degrees=90;break;
+                    case 8:degrees=270;break;
+                    default:degrees=0;break;
+                }
+
+                console.log('point1='+points[i].campos+'  point2='+points[j].campos+' degrees='+degrees);
+            }
+        }
+    }
+    //W/"7f57-7CipEEIfpuOesQrrxc2v1w"
+</script>
+</body>
+</html>

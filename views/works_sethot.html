@@ -1,0 +1,23 @@
+<!doctype html>
+<head>
+    <%- include('templates/header.html') %>
+    <link rel="stylesheet" href="stylesheets/works_sethot.css">
+</head>
+
+<html>
+<body>
+<div id="wrapper" style="padding-bottom: 35px;">
+    <div id="page-wrapper" style="min-height: 800px;">
+        <div class="container-fluid">
+            <%- include('templates/sethot.html') %>
+        </div>
+    </div>
+    <div id="pager" class="pager"></div>
+</div>
+<%- include('templates/footer.html') %>
+</body>
+<script>
+    var configUrl = '<%= config.communityAPIUrl %>';
+</script>
+<script type="text/javascript" src="js/unminify/works_sethot.js"></script>
+</html>

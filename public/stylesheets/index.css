@@ -1,0 +1,72 @@
+body {
+  overflow-y: hidden; }
+
+.side-nav {
+  background-color: rgba(34, 34, 34, 0.7); }
+
+.jumbotron {
+  width: 100%;
+  height: 100%;
+  background: url("../images/index-bg.jpg") no-repeat;
+  background-size: cover; }
+  .jumbotron .main {
+    margin-top: 100px; }
+  .jumbotron h1, .jumbotron h2 {
+    line-height: 100px;
+    text-align: center;
+    font-family: Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+    color: #fff; }
+  .jumbotron .button {
+    text-align: center;
+    margin-top: 50px; }
+    .jumbotron .button a {
+      display: inline-block;
+      width: 300px;
+      height: 80px;
+      line-height: 80px;
+      color: #73A238;
+      border: 2px solid #73A238;
+      position: relative;
+      transition: all .2s ease-in; }
+    .jumbotron .button a:hover {
+      text-decoration: none;
+      border: 2px solid #fff;
+      color: #fff; }
+    .jumbotron .button .line {
+      position: absolute;
+      transition: all .2s ease-in;
+      background-color: #fff; }
+    .jumbotron .button .line-top {
+      width: 0;
+      height: 2px;
+      left: -100%;
+      top: -2px; }
+    .jumbotron .button .button_a:hover .line-top {
+      width: 300px;
+      left: -2px; }
+    .jumbotron .button .line-bottom {
+      width: 0;
+      height: 2px;
+      right: -100%;
+      bottom: -2px; }
+    .jumbotron .button .button_a:hover .line-bottom {
+      width: 300px;
+      right: -2px; }
+    .jumbotron .button .line-right {
+      width: 2px;
+      height: 0;
+      top: -100%;
+      right: -2px; }
+    .jumbotron .button .button_a:hover .line-right {
+      height: 80px;
+      top: -2px; }
+    .jumbotron .button .line-left {
+      width: 2px;
+      height: 0;
+      bottom: -100%;
+      left: -2px; }
+    .jumbotron .button .button_a:hover .line-left {
+      height: 80px;
+      bottom: -2px; }
+
+/*# sourceMappingURL=index.css.map */

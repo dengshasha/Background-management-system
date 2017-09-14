@@ -1,0 +1,105 @@
+<!doctype html>
+<head>
+    <%- include('templates/header.html') %>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/products.css">
+    <link rel="stylesheet" href="../../plugins/pager/pager.css" />
+</head>
+
+<html>
+<body>
+<div id="wrapper">
+    <div id="page-wrapper" style="min-height: 800px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb position">
+                        当前位置：
+                        <li>
+                            产品管理
+                        </li>
+                        <li>
+                            热门设置
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <!-- /.row -->
+            <form class="form-inline">
+                <div class="form-group search" id="is-hot">
+                    <!--<div class="input-group">
+                        <input class="form-control" placeholder="产品id/产品名/作者" id="searchValue" type="text">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" v-on:click = 'searchResult()' id="search_btn">搜索</button>
+                        </span>
+                    </div>-->
+                    <input class="form-control" placeholder="产品id/产品名/作者" id="searchValue">
+                    <button type="button" class="btn btn-success" v-on:click = 'searchResult()' id="search_btn">搜索</button>
+                    <span class="select_offline btn active" v-on:click = "selectHot('All')">所有产品</span>
+                    <span class="select_offline btn" v-on:click = "selectHot('Hot')">热门产品</span>
+                    <span class="select_offline btn" v-on:click = "selectHot('UnHot')">非热门产品</span>
+                </div>
+            </form>
+            <div class="row">
+                <div id="sidetree" class="col-lg-2">
+                    <div id="sidetreecontrol"> <a href="?#" class="slide_hidden">全部收起</a>&nbsp;|&nbsp;<a href="?#" class="slide_show">全部展开</a> </div>
+                    <ul class="treeview" id="tree">
+                        <li class="expandable"><div class="hitarea expandable-hitarea"></div><span v-on:click="selectCategory('')">所有分类</span>
+                            <ul style="display: none;">
+                                <% for(var i = 0; i < category_list.length; i++){ %>
+                                <li class="expandable">
+                                    <div class="hitarea expandable-hitarea"></div>
+                                    <span><%= category_list[i].type %></span>
+                                    <ul style="display: none">
+                                        <% for(var j = 0; j < category_list[i].list.length; j++) {%>
+                                        <li><a href="#" v-on:click = "selectCategory('<%= category_list[i].list[j].id %>')"><%= category_list[i].list[j].cn_name %></a></li>
+                                        <% }%>
+                                    </ul>
+                                </li>
+                                <% } %>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="table-responsive col-lg-10">
+                    <table class="table table-bordered table-hover" style="">
+                        <thead>
+                        <tr>
+                            <th>产品ID</th>
+                            <th>产品名</th>
+                            <th>作者</th>
+                            <th>发布时间</th>
+                            <th>设置热门</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="item in dataList">
+                            <td>{{item.product_id}}</td>
+                            <td>{{item.product_name}}</td>
+                            <td>{{item.owner}}</td>
+                            <td>{{getLocalTime(item.created_at)}}</td>
+                            <td class="set_hot">
+                                <a href="#" class="btn" v-bind:class="{ active: item.is_hot }" v-on:click = "updateHot( $event,item.product_id,true)">设为热门</a>
+                                <a href="#" class="btn" v-bind:class="{ active: !item.is_hot }" v-on:click = "updateHot( $event,item.product_id,false)">取消热门</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--end row-->
+
+        </div><!--end container-fluid-->
+    </div><!--end page-wrapper-->
+    <!--分页-->
+    <div id="pager" class="pager" style="margin-right: 50px"></div>
+</div><!--end wrapper-->
+<%- include('templates/footer.html') %>
+</body>
+<script>
+    var configUrl = '<%= config.communityAPIUrl %>';
+</script>
+<script src="plugins/pager/pager.js"></script>
+<script src="js/unminify/products.js"></script>
+<script src="js/unminify/httpClient.js"></script>
+</html>

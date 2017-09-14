@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <%- include('templates/header.html') %>
+</head>
+<body>
+    <div id="wrapper" style="padding-bottom: 35px;">
+        <div id="page-wrapper" style="min-height: 800px;">
+            <div class="container-fluid">
+                <%- include('templates/manage.html') %>
+            </div>
+        </div>
+        <div id="pager" class="pager"></div>
+    </div>
+    <%- include('templates/footer.html') %>
+</body>
+<script>
+    var configUrl = '<%= config.communityAPIUrl %>';
+</script>
+<script type="text/javascript" src="js/unminify/works_manage.js"></script>
+</html>

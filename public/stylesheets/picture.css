@@ -1,0 +1,120 @@
+@charset "UTF-8";
+.col-lg-12 {
+  padding-right: 0; }
+
+label {
+  font-weight: normal;
+  float: left;
+  line-height: 30px; }
+
+.prompt {
+  text-align: left;
+  line-height: 25px;
+  margin: 0;
+  color: #E57373; }
+
+.project {
+  padding: 20px;
+  border-bottom: 2px solid #73A238; }
+  .project select {
+    width: 200px; }
+  .project .form-control {
+    display: inline-block; }
+  .project a {
+    display: inline-block;
+    margin-left: 15px;
+    text-align: center;
+    background-color: #73A238;
+    color: #fff; }
+
+.add-button {
+  /*添加按钮*/
+  margin-top: 40px;
+  text-align: center; }
+  .add-button a {
+    padding: .5em .8em;
+    background-color: #E57373;
+    border: 1px solid transparent;
+    color: #fff;
+    letter-spacing: 2px; }
+  .add-button a:hover {
+    color: #fff; }
+
+.table {
+  width: 80%;
+  margin: 30px auto; }
+  .table .upload a {
+    padding: .5em 1.5em;
+    background-color: #73A238;
+    color: #fff; }
+  .table .replace-button {
+    padding: .5em 1.5em;
+    background-color: #73A238;
+    color: #fff; }
+
+@media screen and (max-width: 767px) {
+  .table-responsive {
+    margin-top: 15px; } }
+.add-picture {
+  /*添加图片模态框*/
+  /*上传图片*/ }
+  .add-picture label {
+    color: #777;
+    font-weight: normal; }
+  .add-picture .img_choose + label {
+    color: #fff; }
+  .add-picture .upload-img {
+    float: left;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #eee; }
+  .add-picture .upload-button {
+    display: inline-block;
+    color: #fff;
+    background-color: #E57373;
+    padding: 0 2em;
+    height: 30px;
+    line-height: 30px;
+    border: 0;
+    cursor: pointer; }
+
+.replace-picture {
+  /*替换图片模态框*/ }
+  .replace-picture .upload-img {
+    width: 100%;
+    height: 200px;
+    text-align: center;
+    overflow: hidden; }
+  .replace-picture .replace-button {
+    text-align: center;
+    margin-top: 15px; }
+    .replace-picture .replace-button label {
+      color: #fff;
+      background-color: #E57373;
+      height: 30px;
+      line-height: 30px;
+      padding: 0 1.5em;
+      float: none;
+      margin-left: 0; }
+
+/*Input type="file"样式*/
+.img_choose {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1; }
+
+.img_choose + label {
+  display: inline-block;
+  color: #fff;
+  background-color: #73A238;
+  padding: 0 1.5em;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer; }
+
+/*# sourceMappingURL=picture.css.map */

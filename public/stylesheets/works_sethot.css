@@ -1,0 +1,13 @@
+.setHot{
+    display: inline-block;
+    margin-right: 5px;
+    padding: 5px 5px;
+    cursor: pointer;
+    border-radius: 3px;
+    line-height: 1.5;
+}
+.active{
+    color: #fff;
+    font-weight: bold;
+    background: #ff9d00;
+}

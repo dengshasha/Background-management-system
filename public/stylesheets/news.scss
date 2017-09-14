@@ -1,0 +1,140 @@
+$main-color:#73A238;
+$main-color-hover:#5D8939;
+$active-color:#FDB96E;
+$font-color-light:#F3F3F3;
+$font-color:#777;
+$red-color:#E57373;
+.active{
+  color: #fff;
+  //font-weight: bold;
+  background: $active-color;
+}
+.col-lg-12{
+  padding-right: 0;
+}
+#page-wrapper{
+  .container-fluid{
+    .choose_hot{
+      /*选择热门*/
+      margin: 20px auto 0;
+      padding-bottom: 20px;
+      border-bottom: 2px solid $main-color;
+      span{
+        display: inline-block;
+        line-height: 30px;
+        padding: 0 1.2em;
+        font-size: 13px;
+        color: $font-color;
+        text-align: center;
+        cursor: pointer;
+      }
+      span.active{
+        color:#fff;
+      }
+    }
+    .table{
+      margin-bottom: 50px;
+      tbody{
+        .thumbnail_all{
+          position: relative;
+        }
+        .thumbnail_url{
+          display: block;
+          width: 100%;
+        }
+        .thumbnail_img{
+          position: absolute;
+          top:-90px;
+          left: 60%;
+          background-color: #fff;
+          width: 100px;
+          height: 100px;
+          border-radius: 5px;
+          box-shadow: 1px 0 2px 2px #eee;
+          display: none;
+          text-align: center;
+          img{
+            padding-top: 10px;
+          }
+
+        }
+      }
+    }
+    .add-button{
+      /*添加按钮*/
+      text-align: center;
+      margin-top: 20px;
+      a{
+        background-color: $main-color;
+        color:#fff;
+        letter-spacing: 2px;
+      }
+    }
+  }
+}
+.add-news{
+  /*模态框*/
+  .add-title{
+    text-align: left;
+    color: $font-color;
+    border-bottom: 1px solid #ccc;
+    p{
+      margin-bottom: 3px;
+    }
+  }
+  .prompt{
+    text-align: left;
+    line-height: 25px;
+    margin: 0;
+    color: $red-color;
+  }
+
+    label{
+      color: $font-color;
+      font-weight: normal;
+      line-height: 30px;
+    }
+    .form-group{
+      text-align: left;
+    }
+    .form-control{
+      font-size: 13px;
+      color: $font-color;
+    }
+    textarea{
+      resize: none;
+    }
+    .upload-img{
+      float: left;
+      width: 200px;
+      height: 200px;
+      position: relative;
+      border: 1px solid #eee;
+    }
+    /*上传图片*/
+    .img_choose{
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1;
+    }
+    .img_choose + label{
+      display: inline-block;
+      color: #fff;
+      background-color: $main-color;
+      text-align: center;
+      margin-left: 30px;
+      padding: 0 1.5em;
+      height: 30px;
+      line-height: 30px;
+      cursor: pointer;
+    }
+    .img_choose + label:hover{
+      background-color: $main-color-hover;
+    }
+    .hot{
+      text-align: left;
+    }
+}

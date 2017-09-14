@@ -1,0 +1,120 @@
+<style>
+    a{
+        color: #777;
+        font-family: "Microsoft YaHei UI";
+    }
+    a:hover,a:active,a:visited,a:link{
+        text-decoration: none;
+        outline: none;
+    }
+    .position{
+        margin-bottom: 30px;
+        margin-top: 50px;
+    }
+    .line{
+        width:100%;height:2px;background:#73A238;margin-top:10px;margin-bottom: 20px;
+    }
+    .table-responsive table,.table-responsive table th,.table-responsive table td{
+        text-align: center!important;vertical-align: middle!important;
+    }
+    tbody span{
+        display: inline-block;
+        margin-right: 5px;
+        padding: 5px 5px;
+        cursor: pointer;
+        border-radius: 3px;
+        line-height: 1.5;
+    }
+    .active{
+        color: #fff;
+        font-weight: bold;
+        background: #FDB96E;
+    }
+    .active:hover {
+        color: #fff;
+    }
+</style>
+<div class="position"><%= position%></div>
+<form class="form-inline">
+    <div class="form-group" id="functionBtn">
+        <input id="searchCondition" class="form-control" placeholder="作品id/作者/名称">
+        <div id="searchBtn" class="btn btn-success">搜索</div>
+        <span data-value="All" id="condition1" class="btn active" style="display: inline-block;margin-right:5px;padding:6px 12px;cursor:pointer;border-radius: 3px;"><%= all %></span>
+        <span data-value="OffLine" class="btn" id="condition2"  sstyle="display: inline-block;margin-right:5px;padding:6px 12px;cursor:pointer;border-radius: 3px;"><%= hot %></span>
+        <span data-value="UnOffLine" class="btn" id="condition3"  style="display: inline-block;margin-right:5px;padding:6px 12px;cursor:pointer;border-radius: 3px;"><%= notHot %></span>
+    </div>
+</form>
+<div class="line"></div>
+<link rel="stylesheet" href="../../plugins/treeview/jquery.treeview.css" />
+<link rel="stylesheet" href="../../plugins/treeview/screen.css" />
+<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
+<link rel="stylesheet" href="../../plugins/pager/pager.css" />
+<script src="../../plugins/pager/pager.js"></script>
+<script src="../../plugins/treeview/jquery.cookie.js"></script>
+<script src="../../plugins/treeview/jquery.treeview.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function() {
+        $("#tree").treeview({
+            collapsed: true,
+            animated: "fast",
+            control:"#sidetreecontrol",
+            prerendered: true,
+            persist: "location"
+        });
+        $('.form-group').on('click','span',function(){
+            $('.form-group span').removeClass('active');
+            $(this).addClass('active');
+        })
+    })
+</script>
+<div id="sidetree" style="float: left;width:20%;">
+    <div id="sidetreecontrol"> <a href="?#">全部收起</a> | <a href="?#">全部展开</a> </div>
+
+    <ul class="treeview" id="tree">
+        <li class="expandable"><div class="hitarea expandable-hitarea"></div><span>所有分类</span>
+            <ul style="display: none;">
+                <% for(var i = 0; i < category_list.length; i++){ %>
+                <li class="expandable">
+                    <div class="hitarea expandable-hitarea"></div>
+                    <span><%= category_list[i].type %></span>
+                    <ul class="categoryList" style="display: none">
+                        <% for(var j = 0; j < category_list[i].list.length; j++) {%>
+                            <li><a data-id="<%= category_list[i].list[j].id %>" href="javascript:;"><%= category_list[i].list[j].cn_name %></a></li>
+                        <% }%>
+                    </ul>
+                </li>
+                <% } %>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="table-responsive">
+    <input  type="hidden" id="totalCount" value='<%= total %>'>
+
+    <table class="table table-bordered table-hover" style="">
+        <thead>
+        <tr>
+            <th><%= id %></th>
+            <th><%= name %></th>
+            <th>作者</th>
+            <th>发布时间</th>
+            <th>下线</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for(let i=0;i < table.length; i++){ %>
+        <tr data-value="<%= table[i].tdId %>">
+            <td><%= table[i].tdId %></td>
+            <td><%= table[i].tdName %></td>
+            <td><%= table[i].owner %></td>
+            <td><%= new Date(parseInt(table[i].created_at) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ') %></td>
+            <td>
+                <% var off_line =  table[i].off_line %>
+                <span data-value="true" class="<%= off_line == true ? 'active':'' %>">下线</span>
+                <span data-value="false" class="<%= off_line == true ? '':'active' %>">取消下线</span>
+            </td>
+        </tr>
+        <% }%>
+        </tbody>
+    </table>
+</div>

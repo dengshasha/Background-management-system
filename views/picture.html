@@ -1,0 +1,194 @@
+<!doctype html>
+<head>
+    <%- include('templates/header.html') %>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/picture.css">
+    <link rel="stylesheet" href="../../plugins/pager/pager.css" />
+</head>
+<html>
+<body>
+
+<div id="wrapper">
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb position">
+                        当前位置：
+                        <li>
+                            通用配置
+                        </li>
+                        <li>
+                            图片管理
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="project">
+                    <label for="project-list" class="control-label">项目：</label>
+                    <select name="project-list" id="project-list" class="form-control" v-on:change="chooseProject()" v-model="selected">
+                        <option v-for="item in projectList" v-bind:value="item.id">{{item.name}}</option>
+                    </select>
+                    <a href="#" data-toggle="modal" class="btn" data-target="#add-project">新建项目</a>
+                </div>
+            </div><!--end row-->
+
+            <div class="add-button">
+                <a href="#" class="btn" data-toggle="modal" data-target="#add-picture" v-on:click="getProject()">添加图片</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered" id="table">
+                    <thead>
+                    <tr>
+                        <th>项目名</th>
+                        <th>图片用途</th>
+                        <th>图片地址</th>
+                        <th>缩略图</th>
+                        <!--<th>替换图片</th>-->
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    <tr v-for="item in imageList">
+                        <td>{{ item.project_name }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.image_uri }}</td>
+                        <td><img v-bind:src="item.image_uri" alt="" width="70px" height="70px"></td>
+                       <!-- <td>
+                            <a href="#" class="replace-button" data-toggle="modal" data-target="#replace-picture" v-on:click="getOldPicture(item.image_uri,item.id)">替换图片</a>
+                        </td>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!--end table-responsive-->
+
+            <!--分页-->
+            <div id="pager" class="pager" style="margin-right: 50px"></div>
+        </div>
+
+        <!--提示-->
+        <div class="modal fade" id="prompt" tabindex="-1" role="dialog" aria-labelledby="prompt-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="prompt-title">{{ promptTitle }}</h4>
+                    </div>
+                    <div class="row modal-body" style="text-align: center;">
+                        <p id="prompt-body">{{ promptBody }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--添加项目-->
+        <div class="modal fade" id="add-project" tabindex="-1" role="dialog" aria-labelledby="add-project-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="add-project-label">添加项目</h4>
+                    </div>
+                    <div class="row modal-body">
+                        <label class="control-label col-sm-2" for="new-project">项目名：</label>
+                        <div class="col-sm-10">
+                            <input type="text" placeholder="请输入项目名称" class="form-control" id="new-project" v-model="newProjectName">
+                            <p class="prompt" v-bind:style="{display:isError.project_error}">项目名不能为空！</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" v-on:click="addProject()">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--替换图片-->
+      <!--  <div class="modal fade replace-picture" id="replace-picture" tabindex="-1" role="dialog" aria-labelledby="replace-picture-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="replace-picture-label">替换图片</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="upload-img">
+                            <img v-bind:src="imgUrl" alt="" width="200px" height="200px" id="new-image">
+                        </div>
+                        <div class="replace-button">
+                            <input type="file" name="file" id="img_choose1" class="img_choose" v-on:change="replacePicture"/>
+                            <label for="img_choose1">选择文件</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" v-on:click="confirmReplace()">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+        <!--添加图片-->
+        <div class="modal fade add-picture" id="add-picture" tabindex="-1" role="dialog" aria-labelledby="add-picture-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <div class="modal-title">
+                            <p>将添加图片到：<span style="color: #73A238;">{{ projectName }}</span> 项目</p>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post" role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="description" class="col-lg-4">图片描述：</label>
+                                <div class="col-lg-8">
+                                    <textarea name="" id="description" rows="3" class="form-control" v-model="imgDescription" placeholder="图片使用场景描述,不超过20个字符" style="resize: none"></textarea>
+                                    <p class="prompt" v-bind:style="{display:isError.description_error}">图片描述不能为空或超过最大字符限制！</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-4">缩略图：</label>
+                                <div class="col-lg-8">
+                                        <div class="upload-img">
+                                            <img alt="" v-bind:src="imgUrl" width="200px" id="image">
+                                        </div>
+                                        <div style="margin-left: 30px;float: left">
+                                            <input type="file" accept="image/*" name="file" id="img_choose" class="img_choose" v-on:change="uploadPicture"/>
+                                            <label for="img_choose">上传图片</label>
+                                        </div>
+                                </div>
+                            </div>
+                            <p class="prompt" v-bind:style="{display:isError.upload_img_error}" style="text-align: center;">请先上传图片！</p>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" v-on:click="addPicture()">确定</button>
+                    </div>
+                </div><!--/.modal-content-->
+            </div><!--/.modal-dialog-->
+        </div><!--/.modal-->
+    </div><!--end page-wrapper-->
+</div><!--end wraper-->
+
+<%- include('templates/footer.html') %>
+</body>
+<script>
+    var configUrl = '<%= config.communityAPIUrl %>';
+</script>
+<!--分页插件-->
+<script src="../../plugins/pager/pager.js"></script>
+<script type="text/javascript" src="js/unminify/httpClient.js"></script>
+<script type="text/javascript" src="js/unminify/picture.js"></script>
+
+</html>
+
+

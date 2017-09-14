@@ -1,0 +1,86 @@
+$main-color:#73A238;
+$main-color-hover:#ACC92C;
+$active-color:#FDB96E;
+$font-color-light:#F3F3F3;
+$font-color:#777;
+$red-color:#E57373;
+.row{
+  margin: 0;
+}
+.col-lg-12{
+  padding: 0;
+}
+
+button{
+  outline: none;
+}
+#page-wrapper{
+  .container-fluid{
+    .resource-type{
+      /*资源类型*/
+      float: left;
+    }
+    .resource-type,
+    .classification{
+      /*所有分类*/
+      padding: 20px;
+      select{
+        width: 200px;
+        text-align: center;
+        float: left;
+      }
+      label {
+        font-weight: normal;
+        float: left;
+        line-height: 30px;
+      }
+    }
+    @media(max-width: 768px){
+      .resource-type{
+        /*资源类型*/
+        float: none;
+      }
+      .resource-type,
+      .classification{
+        padding: 20px;
+        select{
+          width: 80%;
+        }
+      }
+    }
+    .add-button{
+      /*添加按钮*/
+      margin-top: 40px;
+      text-align: center;
+      a{
+        background-color: $red-color;
+        color:#fff;
+        letter-spacing: 2px;
+      }
+    }
+    .table{
+      width: 80%;
+      margin: 50px auto;
+      .sort_input{
+        width: 60px;
+        text-align: center;
+      }
+    }
+  }
+}
+.add-category{
+  /*模态框*/
+  label{
+    color: $font-color;
+    font-weight: normal;
+  }
+  .prompt{
+    text-align: left;
+    line-height: 25px;
+    margin: 0;
+    color: $red-color;
+  }
+  .use,.hot{
+    text-align: left;
+  }
+}

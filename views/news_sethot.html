@@ -1,0 +1,88 @@
+<!doctype html>
+<head>
+    <%- include('templates/header.html') %>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/news.css">
+    <link rel="stylesheet" href="../../plugins/pager/pager.css" />
+</head>
+<html>
+<body>
+<div id="wrapper">
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb position">
+                        当前位置：
+                        <li>
+                            新闻管理
+                        </li>
+                        <li>
+                            热门设置
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <!-- /.row -->
+            <div class="choose_hot">
+                <span class="btn active" v-on:click = "selectHot('All')">所有新闻</span>
+                <span class="btn" v-on:click = "selectHot('Hot')">热门新闻</span>
+                <span class="btn" v-on:click = "selectHot('UnHot')">非热门新闻</span>
+            </div>
+
+            <div class="row">
+                <div id="sidetree" class="col-lg-2">
+                    <div id="sidetreecontrol"> <a href="?#">全部收起</a> | <a href="?#">全部展开</a> </div>
+                    <ul class="treeview" id="tree" v-for="item in categoryList">
+                        <li class="expandable"><div class="hitarea expandable-hitarea"></div>
+                            <span>{{ item.type }}</span>
+                            <ul style="display: none;" v-for="category in item.list">
+                                <li><a href="#" v-on:click = "selectCategory(category.id)">{{category.cn_name}}</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!--end sidetree-->
+
+                <div class="table-responsive col-lg-10">
+                    <table class="table table-bordered table-hover" style="">
+                        <thead>
+                        <tr>
+                            <th>新闻ID</th>
+                            <th>标题</th>
+                            <th>新闻地址</th>
+                            <th>发布时间</th>
+                            <th>设置热门</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="item in dataList">
+                            <td>{{item.id}}</td>
+                            <td>{{item.title}}</td>
+                            <td><a v-bind:href="item.news_url" target="_blank">{{item.news_url}}</a></td>
+                            <td>{{getLocalTime(item.created_at)}}</td>
+                            <td class="set_hot">
+                                <a class="btn" href="#" v-bind:class="{ active: item.is_hot }" v-on:click = "updateHot( $event,item.id,true)">设为热门</a>
+                                <a class="btn" href="#" v-bind:class="{ active: !item.is_hot }" v-on:click = "updateHot( $event,item.id,false)">取消热门</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="remodal-form"></div>
+        </div><!--end container-fluid-->
+    </div><!--end page-wrapper-->
+    <!--分页-->
+    <div id="pager" class="pager" style="margin-right: 50px"></div>
+</div><!--end wrapper-->
+<%- include('templates/footer.html') %>
+</body>
+<script>
+    var configUrl = '<%= config.communityAPIUrl %>';
+</script>
+<script src="../../plugins/pager/pager.js"></script>
+<script src="js/unminify/news.js"></script>
+<script src="js/unminify/httpClient.js"></script>
+</html>

@@ -1,0 +1,20 @@
+@charset "UTF-8";
+.active {
+  color: #fff;
+  background: #FDB96E; }
+
+.active:hover {
+  color: #fff; }
+
+.col-lg-12 {
+  padding-right: 0; }
+
+.form-inline {
+  /*搜索框*/
+  border-bottom: 2px solid #73A238; }
+  .form-inline .search {
+    padding: 20px; }
+    .form-inline .search .input-group {
+      margin-right: 15px; }
+  .form-inline button {
+    color: #fff; }
